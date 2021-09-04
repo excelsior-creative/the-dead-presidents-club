@@ -1,33 +1,36 @@
+import { AuctionViewState, useAuctions } from '../../hooks';
+import { Badge, List, Popover } from 'antd';
 import {
   CheckCircleTwoTone,
   LoadingOutlined,
   PlayCircleOutlined,
   SyncOutlined,
 } from '@ant-design/icons';
+import React, { useEffect, useMemo, useState } from 'react';
 import {
+  StringPublicKey,
+  VaultState,
+  WalletSigner,
   findProgramAddress,
   programIds,
-  StringPublicKey,
   toPublicKey,
   useConnection,
   useUserAccounts,
-  VaultState,
-  WalletSigner,
 } from '@oyster/common';
-import { useWallet } from '@solana/wallet-adapter-react';
+
 import { Connection } from '@solana/web3.js';
-import { Badge, Popover, List } from 'antd';
-import React, { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { QUOTE_MINT } from '../../constants';
 import { closePersonalEscrow } from '../../actions/closePersonalEscrow';
 import { decommAuctionManagerAndReturnPrizes } from '../../actions/decommAuctionManagerAndReturnPrizes';
 import { sendSignMetadata } from '../../actions/sendSignMetadata';
-import { unwindVault } from '../../actions/unwindVault';
 import { settle } from '../../actions/settle';
 import { startAuctionManually } from '../../actions/startAuctionManually';
-import { QUOTE_MINT } from '../../constants';
+import { unwindVault } from '../../actions/unwindVault';
 import { useMeta } from '../../contexts';
-import { AuctionViewState, useAuctions } from '../../hooks';
+import { useWallet } from '@solana/wallet-adapter-react';
+
+const logo = require('../../images/logo-white-horz.png');
 
 interface NotificationCard {
   id: string;
@@ -480,15 +483,14 @@ export function Notifications() {
     <span>No notifications</span>
   );
 
+  console.log('logo', logo);
+
   const justContent = (
-    <Popover
-      className="noty-popover"
-      placement="bottomLeft"
-      content={content}
-      trigger="click"
-    >
-      <h1 className="title">M</h1>
-    </Popover>
+    <img
+      className="dpc-logo"
+      src={logo.default.src}
+      alt="The Dead Presidents Club"
+    />
   );
 
   if (notifications.length === 0) return justContent;

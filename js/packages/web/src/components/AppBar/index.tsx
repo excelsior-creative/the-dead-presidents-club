@@ -1,12 +1,13 @@
-import React, { useMemo } from 'react';
-import { Link } from 'react-router-dom';
 import { Button, Dropdown, Menu } from 'antd';
 import { ConnectButton, CurrentUserBadge } from '@oyster/common';
-import { useWallet } from '@solana/wallet-adapter-react';
-import { Notifications } from '../Notifications';
-import useWindowDimensions from '../../utils/layout';
+import React, { useMemo } from 'react';
+
+import { Link } from 'react-router-dom';
 import { MenuOutlined } from '@ant-design/icons';
+import { Notifications } from '../Notifications';
 import { useMeta } from '../../contexts';
+import { useWallet } from '@solana/wallet-adapter-react';
+import useWindowDimensions from '../../utils/layout';
 
 const UserActions = () => {
   const { publicKey } = useWallet();
@@ -52,7 +53,7 @@ const DefaultActions = ({ vertical = false }: { vertical?: boolean }) => {
         flexDirection: vertical ? 'column' : 'row',
       }}
     >
-      <Link to={`/`}>
+      {/* <Link to={`/`}>
         <Button className="app-btn">Explore</Button>
       </Link>
       <Link to={`/artworks`}>
@@ -62,7 +63,7 @@ const DefaultActions = ({ vertical = false }: { vertical?: boolean }) => {
       </Link>
       <Link to={`/artists`}>
         <Button className="app-btn">Creators</Button>
-      </Link>
+      </Link> */}
     </div>
   );
 };
@@ -80,7 +81,7 @@ const MetaplexMenu = () => {
           trigger={['click']}
           overlay={
             <Menu>
-              <Menu.Item>
+              {/* <Menu.Item>
                 <Link to={`/`}>
                   <Button className="app-btn">Explore</Button>
                 </Link>
@@ -96,7 +97,7 @@ const MetaplexMenu = () => {
                 <Link to={`/artists`}>
                   <Button className="app-btn">Creators</Button>
                 </Link>
-              </Menu.Item>
+              </Menu.Item> */}
             </Menu>
           }
         >
@@ -112,24 +113,23 @@ export const AppBar = () => {
   const { connected } = useWallet();
 
   return (
-    <>
+    <div className="container">
       <div className="app-left app-bar-box">
         {window.location.hash !== '#/analytics' && <Notifications />}
-        <div className="divider" />
         <MetaplexMenu />
       </div>
       {connected ? (
         <div className="app-right app-bar-box">
           <UserActions />
           <CurrentUserBadge
-            showBalance={false}
-            showAddress={false}
-            iconSize={24}
+            showBalance={true}
+            showAddress={true}
+            iconSize={32}
           />
         </div>
       ) : (
         <ConnectButton type="primary" allowWalletChange />
       )}
-    </>
+    </div>
   );
 };
